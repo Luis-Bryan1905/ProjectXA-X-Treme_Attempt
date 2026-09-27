@@ -1,13 +1,29 @@
 # ProjectXA-X-Treme_Attempt
 Project XA: (short for X-treme Attempt) is my attempt to create a level reader and viewer for the various versions and repositories of original level files for the cancelled 1998 game "Sonic X-treme" in C++, SDL2 and OpenGL.
 
-Special Thanks:
+**DEPENDANCIES:**
+
+* Assimp
+
+* Glew
+
+* Glm
+
+* SDL2
+
+* SDL2_image
+
+* SDL2_ttf
+
+**NOTES:**
 
 Previous code of mine from another project is used as base-plate codebase
 
-Voxel's Level Reader used as reference (https://archive.org/details/xtreme-level-reader-source.-7z)
-
 AI only used for debugging and finding equivelants of Unity/C# functions to C++/SDL
+
+**SPECIAL THANKS:**
+
+Voxel's Level Reader used as reference (https://archive.org/details/xtreme-level-reader-source.-7z)
 
 **CURRENT FEATURES:**
 
