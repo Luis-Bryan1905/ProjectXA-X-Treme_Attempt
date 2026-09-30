@@ -208,7 +208,7 @@ namespace GE
 		}
 		Build_System_Palette(); // Generate the system palette based on the original Qubix color palette
 
-		Build_Final_Layout(LayoutFilename); // Build the final layout of the level using the loaded cubes and textures
+		Build_Final_Layout(LayoutFilepath); // Build the final layout of the level using the loaded cubes and textures
 	}
 
 	void CubeWorld::Process_Qubix(std::istream &DEFReader, std::string &CurLine)
@@ -269,13 +269,16 @@ namespace GE
 
 				if (propertyID == "001") // If the property ID is "001", we process the layout filename of the Qubix world by extracting it from the value part and assigning it to the LayoutFilename variable
 				{
-					LayoutFilename = ".//Assets/PACKAGEX/PCX/" + propertyValue + ".png"; // Assign the extracted layout filename to the LayoutFilename variable for later use
-					SDL_Log("Layout filename: %s", LayoutFilename.c_str());
+					LayoutFilename = propertyValue;
+					LayoutFilepath = ".//Assets/PACKAGEX/PCX/" + LayoutFilename + ".png"; // Assign the extracted layout filename to the LayoutFilename variable for later use
+					SDL_Log("Layout filename: %s", LayoutFilepath.c_str());
 				}
 
 				if (propertyID == "002") // If the property ID is "001", we process the layout filename of the Qubix world by extracting it from the value part and assigning it to the LayoutFilename variable
 				{
-					SDL_Log("Backdrop filename: %s", propertyValue.c_str());
+					BackdropFilename = propertyValue;
+					BackdropFilepath = ".//Assets/PACKAGEX/PCX/" + BackdropFilename + ".png";
+					SDL_Log("Backdrop filename: %s", BackdropFilepath.c_str());
 				}
 			}
 

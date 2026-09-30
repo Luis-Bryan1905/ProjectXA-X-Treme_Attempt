@@ -170,6 +170,10 @@ namespace GE
 			std::ifstream DEFReader; // StreamReader for reading the DEF file
 
 			std::string LayoutFilename; // Filename of the layout file for the level, used to build the level geometry
+			std::string LayoutFilepath; // Full filepath of the layout file for the level
+
+			std::string BackdropFilename; // Filename of the Backdrop file for the level, used for the background
+			std::string BackdropFilepath; // Full filepath of the Backdrop file for the level
 
 			Colour32 SysPalette[256]; // System palette for the level, used for shading and color mapping
 
