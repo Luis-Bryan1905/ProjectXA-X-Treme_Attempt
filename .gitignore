@@ -236,9 +236,6 @@ PublishScripts/
 *.nuget.props
 *.nuget.targets
 
-!external/glew/lib/
-!external/glew/lib/**
-
 # Microsoft Azure Build Output
 csx/
 *.build.csdef
@@ -431,3 +428,7 @@ FodyWeavers.xsd
 *.msm
 *.msp
 /Assets/PACKAGEX
+
+# Keep GLEW libraries
+!external/glew/lib/
+!external/glew/lib/**
