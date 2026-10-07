@@ -430,5 +430,5 @@ FodyWeavers.xsd
 /Assets/PACKAGEX
 
 # Keep GLEW libraries
-!external/glew/lib/
-!external/glew/lib/**
+!externals/glew/lib/
+!externals/glew/lib/**
