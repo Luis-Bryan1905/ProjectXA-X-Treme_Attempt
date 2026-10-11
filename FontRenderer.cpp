@@ -102,8 +102,8 @@ namespace GE {
 		// Configure how the texture will be manipulated when it needs to be
 		// reduced or increased (magnified) when rendering onto an object.
 		// GL_LINEAR is weighted average of the colours around the texture co-ords
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
 		// Release the surface object and memory associated with it
 		// as no longer need it

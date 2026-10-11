@@ -134,6 +134,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Background.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CubeWorld.h" />
     <ClInclude Include="FontRenderer.h" />
@@ -143,10 +144,10 @@
     <ClInclude Include="Model.h" />
     <ClInclude Include="ModelRenderer.h" />
     <ClInclude Include="ShaderUtils.h" />
-    <ClInclude Include="SkyboxRenderer.h" />
     <ClInclude Include="Texture.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Background.cpp" />
     <ClCompile Include="CubeWorld.cpp" />
     <ClCompile Include="FontRenderer.cpp" />
     <ClCompile Include="GameEngine.cpp" />
@@ -156,7 +157,6 @@
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="ModelRenderer.cpp" />
     <ClCompile Include="ShaderUtils.cpp" />
-    <ClCompile Include="SkyboxRenderer.cpp" />
     <ClCompile Include="Texture.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

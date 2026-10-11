@@ -21,8 +21,6 @@ namespace GE
 
 	bool GameEngine::init()
 	{
-
-
 		bool VSync = true;
 
 		if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK) < 0) // If SDL2 fails to Initlise
@@ -38,7 +36,7 @@ namespace GE
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3); // Set OpenGL version to 3.3
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_COMPATIBILITY); // Set OpenGL profile to compatibility mode (allows use of deprecated features)
 		ResolutionMultiplier = 3;
-		ResolutionX = 320 * ResolutionMultiplier;
+		ResolutionX = 320 * ResolutionMultiplier; // 427 for 16:9
 		ResolutionY = 240 * ResolutionMultiplier;
 
 		window = SDL_CreateWindow("X-Treme Attempt", 150, 150, ResolutionX, ResolutionY, SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
@@ -81,7 +79,15 @@ namespace GE
 				return false;
 			}
 		}
+		else {
+			if (SDL_GL_SetSwapInterval(0) != 0)
+			{
+				std::cout << "could not set VSync: " << SDL_GetError() << std::endl; // Display error Message to console
+				return false;
+			}
+		}
 
+		last_time = SDL_GetTicks();
 
 		dist = glm::vec3(0.0f, 0.0f, -100.0f); // Set initial distance for camera to look at the scene from a distance
 
@@ -95,8 +101,6 @@ namespace GE
 		
 		mr = new ModelRenderer();
 		mr->init();
-		mr->setPos(0.0f, 0.0f, 0.0f);
-		mr->setRotation(0.0f, 0.0f, 0.0f);
 		
 		ir = new InstancedRenderer(); // Create an instanced renderer for rendering multiple instances of the same model efficiently
 		Texture* BALL01 = new Texture(".//Assets//PACKAGEX//PCX//SYSTEM//Sonic//BALL01.png");
@@ -113,7 +117,7 @@ namespace GE
 		cubeWorld = new CubeWorld(this); // Create a cube world with the same resolution as the window
 
 		//WIP: find way to allow user to open PNG file and use it for cube world layout?
-		//cubeWorld->init(".//Assets/Z17/sonic/JADE2.PCX/JADE2-4a.png"); // Initialize the cube world
+		//cubeWorld->init(".//Assets/Z17/sonic/JADE2.PCX/JADE2-4a.png"); // Initialize the cube world with PNG to preview just level layout
 		cubeWorld->init(".//Assets/PACKAGEX/DEF/JADE1.DEF"); // Initialize the cube world
 
 		ir->setInstanceData(instances); // Set the instance data for the instanced renderer
@@ -140,6 +144,8 @@ namespace GE
 		gr = new GUIRenderer(); // Create a renderer for GUI elements (e.g. text, images)
 		gr->init(ResolutionX / ResolutionMultiplier, ResolutionY / ResolutionMultiplier); // Initialize the GUI renderer with the window resolution
 		FPSMsg = new GUIText(0, 0, "FPS:", ".//Assets//Font//DebugFont.ttf"); // Create a GUI text object for displaying the frames per second (FPS) message on the screen
+
+		background = new Background(cubeWorld->GetBackground(), ResolutionX, ResolutionY); // Create a background object for rendering a background image in the scene
 
 		std::cout << "Engine Initalised: " << std::endl;
 
@@ -187,7 +193,6 @@ namespace GE
 
 	bool GameEngine::keep_running() // Check if the engine should keep running based on user input (e.g. pressing the escape key or closing the window)
 	{
-
 		SDL_PumpEvents(); // Update SDL's internal event state
 
 		SDL_Event evt; 
@@ -216,8 +221,8 @@ namespace GE
 
 	void GameEngine::processInput() // Process user input for camera movement and other interactions
 	{
-
-		const float camSpeed = 0.3f; // Camera movement speed
+		float camSpeed = 0.3f; // Camera movement speed, scaled by delta time for consistent movement across different frame rates
+		
 		const float mouseSens = 0.1f; // Mouse sensitivity for camera rotation
 
 		int mouseX, mouseY = 0; // Variables to store the current mouse position
@@ -308,47 +313,38 @@ namespace GE
 
 		}
 
-
 		cam->updateCamMatrices();
 	}
 
 	void GameEngine::update()
 	{
-
+		//create delta_time
+		delta_time = SDL_GetTicks() - last_time; // Calculate the time difference between the current frame and the last frame in milliseconds
+		
 	}
 
 	void GameEngine::drawScene()
 	{
-		glClearColor(0.0f, 0.0f, 0.0f, 1.0f); // Set the clear background to a color (RGBA)
-		glEnable(GL_DEPTH_TEST); // Enable depth testing to ensure proper rendering of 3D objects based on their distance from the camera
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Clear the color buffer and depth buffer to prepare for rendering the new frame
-
-		ir->drawInstanced(cam, m); // Draw the instanced objects (e.g. multiple instances) in the scene
-
+		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+		glEnable(GL_DEPTH_TEST);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		background->render(cam);
+		ir->drawInstanced(cam, m);
 	}
 
 	void GameEngine::draw()
 	{
 		drawScene(); // Draw the scene
-
 		gr->drawText(FPSMsg); // Draw the FPS message on the screen using the GUI renderer
-
 		SDL_GL_SwapWindow(window); // Swap the window buffers to display the rendered frame on the screen
 	}
 
 	void GameEngine::shutdown() // Clean up and free resources before shutting down the engine
 	{
-
 		if (mr != nullptr)
 		{
 			mr->destroy();
 			delete mr;
-		}
-
-		if (skybox != nullptr)
-		{
-			skybox->destroy();
-			delete skybox;
 		}
 
 		if (gr != nullptr)
@@ -372,6 +368,12 @@ namespace GE
 		if (cubeWorld != nullptr)
 		{
 			delete cubeWorld;
+		}
+		
+		if (background != nullptr)
+		{
+			background->clean();
+			delete background;
 		}
 
 		MeshList.clear();

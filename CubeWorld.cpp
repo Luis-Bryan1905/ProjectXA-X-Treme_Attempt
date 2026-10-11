@@ -305,7 +305,6 @@ namespace GE
 		newTex.name = textureName; // Assign the Texture name to the newTex object
 		newTex.flags = 0; // Initialize flags to 0
 		newTex.rendermode = 0; // Initialize the render mode of the new texture to 0
-		// newTex.AITexture = new Texture2D(16, 16); // Initialize the AITexture of the new texture to a new 16x16 Texture object
 		newTex.scroll = std::make_pair(0.0f, 0.0f); // Initialize the scroll values of the new texture to a zero vector
 		newTex.bitmaps = std::list<SX_Bitmap>();// Initialize the bitmaps list of the new texture to an empty list of SX_Bitmap objects
 
@@ -510,12 +509,12 @@ namespace GE
 
 				else if (propertyID == "018") // If the property ID is "018", we process the frame color of the texture by parsing the value part and setting the frame color keys accordingly
 				{
-
+					newTex.Frame1 = true; // Set the Frame1 flag to true, indicating that the first frame of the texture is present
 				}
 
 				else if (propertyID == "019") // If the property ID is "019", we process the second frame color of the texture by parsing the value part and setting the second frame color keys accordingly
 				{
-
+					newTex.Frame2 = true; // Set the Frame2 flag to true, indicating that the second frame of the texture is present
 				}
 
 				else if (propertyID == "020") // If the property ID is "020", we process the second fill color of the texture by parsing the value part and setting the second fill color keys accordingly
@@ -882,8 +881,6 @@ namespace GE
 	{
 		SDL_Log("Generated Cube: %s at Position: (%f, %f, %f)", cube.name.c_str(), pos.x, pos.y, pos.z);
 		engine->PushMeshInstance(pos.x, pos.y, pos.z, 0, 0, 0); // Add a cube instance to the scene at the specified position (X, Y, Z)
-
-		
 	}
 
 	void CubeWorld::Build_System_Palette()
@@ -1122,7 +1119,7 @@ namespace GE
 	//=======================================================================================
 	//                           H E L P E R    F U N C T I O N S                            
 	//=======================================================================================
-	int Get_Texture_Index(std::string TextureName) // Returns the index of a texture in the SX_Textures list based on its name. If the texture is not found, it logs a warning and returns index 0.
+	int CubeWorld::Get_Texture_Index(const std::string& TextureName) // Returns the index of a texture in the SX_Textures list based on its name. If the texture is not found, it logs a warning and returns index 0.
 	{
 		//for (int i = 0; i < SX_Textures.Count; i++) // Loop through the SX_Textures list to find the texture with the specified name
 		//{
@@ -1132,7 +1129,15 @@ namespace GE
 		//  }
 		//}
 
-		SDL_Log("DEFPARSER: Failed to find texture %s", TextureName.c_str(), " - Falling back to index 0!"); // Log a warning if the texture is not found in the SX_Textures list, indicating that the code will fall back to using index 0 as a default texture
-		return 0; // Return index 0 as a fallback if the specified texture is not found in the SX_Textures list
+		size_t idx = 0;
+		for (const auto& tex : SX_Textures)
+		{
+			if (tex.name == TextureName)
+				return static_cast<int>(idx);
+			++idx;
+		}
+		SDL_Log("DEFPARSER: Failed to find texture %s - Falling back to index 0!", TextureName.c_str());
+		return 0;
+		
 	}
 }

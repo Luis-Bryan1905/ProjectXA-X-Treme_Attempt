@@ -17,9 +17,11 @@ Project XA: (short for X-treme Attempt) is my attempt to create a level reader a
 
 **NOTES:**
 
-Previous code of mine from another project is used as base-plate codebase
+* Previous code of mine from another project is used as base-plate codebase
 
-AI only used for debugging and finding equivelants of Unity/C# functions to C++/SDL
+* AI only used for debugging and finding equivelants of Unity/C# functions (from Voxel's Level Reader) to C++/SDL2/OpenGL as I am a beginner to this stuff (especially OpenGL)
+
+* Currently filepath is hardcoded and require recompile to change
 
 **SPECIAL THANKS:**
 
@@ -31,7 +33,7 @@ Voxel's Level Reader used as reference (https://archive.org/details/xtreme-level
 
 * Detect and locate Level layout file from "QUBIX" value in .DEF files
 
-* Read And build levels from level layouts (only single block type and texture currently implemented)
+* Read And build levels from level layouts (only standard block type and placeholder texture currently implemented)
 
 * Moveable Camera
 
@@ -52,3 +54,7 @@ Voxel's Level Reader used as reference (https://archive.org/details/xtreme-level
 * Billboards
   
 * Version 37 and Prior level compatability
+
+* Main Menu
+
+* Allow for file opening/loading inside of program

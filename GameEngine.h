@@ -7,10 +7,10 @@
 #include "ModelRenderer.h"
 #include "Model.h"
 #include "Texture.h"
-#include "SkyboxRenderer.h"
 #include "InstancedRenderer.h"
 #include "GUIRenderer.h"
 #include "CubeWorld.h"
+#include "Background.h"
 
 
 namespace GE
@@ -64,7 +64,9 @@ namespace GE
 		float xDir = 0;
 		float yDir = 0;
 
-
+		Uint32 last_time = 0;
+		Uint32 current_time = 0;
+		Uint32 delta_time;
 
 		//Analog joystick dead zone
 		const int JOYSTICK_DEAD_ZONE = 8000;
@@ -73,6 +75,7 @@ namespace GE
 
 		SDL_Window* window; // SDL Window
 		SDL_GLContext glContext; // OpenGL Context
+
 
 		glm::vec3 dist;  // Distance vector for camera movement
 
@@ -85,8 +88,6 @@ namespace GE
 
 		ModelRenderer* mr; // Model Renderer
 
-		SkyboxRenderer* skybox; // Skybox Renderer
-
 		std::vector<MeshInstance> MeshList;  // List of mesh instances in the scene, each with a model and a renderer
 		std::vector<Texture> TextureList;  // List of textures in the scene
 		std::vector<InstancePosRotScale> instances; // Create a vector to store the position, rotation and scale of each instance
@@ -98,6 +99,8 @@ namespace GE
 		GUIImage* HUDImage; // GUI image object for the heads-up display (HUD) on the screen
 
 		CubeWorld* cubeWorld; // CubeWorld object for rendering a voxel-based world
+
+		Background* background; // Background object for rendering a background image in the scene
 	};
 
 

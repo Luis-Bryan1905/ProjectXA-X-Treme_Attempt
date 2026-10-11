@@ -77,12 +77,17 @@ namespace GE
 
        Texture AITexture; // Texture2D object for the auto-generated texture
        std::pair<float, float> scroll; // Scroll values for the texture (x and y)
+	   bool Frame1 = false; // Flag indicating if the first frame of the texture is present
+	   bool Frame2 = false; // Flag indicating if the second frame of the texture is present
+	   Colour32 Fill1Colour; // Colour of the material
+	   Colour32 Fill2Colour; // Colour of the material
+	   Colour32 Frame1Colour; // Colour of the material
+	   Colour32 Frame2Colour; // Colour of the material
 
        std::list<SX_Bitmap> bitmaps; // List of bitmaps associated with the texture
 
-       // Add a default constructor to resolve the issue
-       SX_Texture() : name(""), flags(0), rendermode(0), AITexture(""), scroll({0.0f, 0.0f}) {}
-    };
+	   SX_Texture() : name(""), flags(0), rendermode(0), AITexture(NULL), scroll({ 0.0f, 0.0f }), Frame1(false), Frame2(false), Fill1Colour(0, 0, 0, 255), Fill2Colour(0, 0, 0, 255), Frame1Colour(0, 0, 0, 255), Frame2Colour(0, 0, 0, 255) {}
+	};
 
 	struct SX_Material
 	{
@@ -91,6 +96,7 @@ namespace GE
 		uint8_t type; // Type of the material
 		Colour32 colour; // Colour of the material
 		Texture* mainTexture; // Pointer to the texture associated with the material
+
 		SX_Material() : name(""), flags(0), type(0), colour(0, 0, 0, 255), mainTexture(nullptr) {}
 
 	};
@@ -109,8 +115,9 @@ namespace GE
 
 		Model mesh; // Mesh object for the cube (used for rendering the cube in the game engine)
 		std::list<SX_Material> materials; // Array of materials for the cube (one for each face)
-	};
 
+		SX_Cube() : name(""), flags(0), type(0), slope_dir(0), double_sided_flags(0), scale({ 1.0f, 1.0f, 1.0f }), offset({ 0.0f, 0.0f, 0.0f }) {}
+	};
 
 	class GameEngine; // Forward declaration
 
@@ -130,6 +137,10 @@ namespace GE
 			std::string DEFFile; // Name of the DEF file to load
 			Texture* BackdropImg; // Texture for the backdrop of the level
 
+			std::string GetBackground()
+			{
+				return BackdropFilepath;
+			}
 
 		private:
 			void LoadLayoutFromTextFile(std::string filename); // Load the layout of the level from a text file
@@ -151,9 +162,7 @@ namespace GE
 			void Process_Material(); //(ref Material cubeMat, string texture_name, int type) // Processes a material for a cube based on the provided texture name and type, adjusting properties such as color, transparency, and texture scaling accordingly
 
 			void Process_Shading_And_Renderflags(); //(ref Material cubeMat, string ValuePart)  // Processes shading and render flags for a material based on the provided value part, adjusting color, transparency, texture scaling, and rotation accordingly
-
-			int Get_Texture_Index(std::string TextureName); // Returns the index of a texture in the SX_Textures list based on its name. If the texture is not found, it logs a warning and returns index 0.
-
+			int Get_Texture_Index(const std::string& TextureName);
 			Colour32 GetColourAtPixel(int x, int y, SDL_Surface* LayoutSurface);
 			
 			std::vector<std::string> ParseLine(const std::string& line);
