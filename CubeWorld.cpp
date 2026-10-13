@@ -880,7 +880,7 @@ namespace GE
 	void CubeWorld::Generate_Cube(SX_Cube cube, Vector3 pos) 
 	{
 		SDL_Log("Generated Cube: %s at Position: (%f, %f, %f)", cube.name.c_str(), pos.x, pos.y, pos.z);
-		engine->PushMeshInstance(pos.x, pos.y, pos.z, 0, 0, 0); // Add a cube instance to the scene at the specified position (X, Y, Z)
+		engine->PushMeshInstance(pos.x, pos.y, pos.z, cube.scale.x, cube.scale.y, cube.scale.z); // Add a cube instance to the scene at the specified position (X, Y, Z)
 	}
 
 	void CubeWorld::Build_System_Palette()

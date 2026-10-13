@@ -53,7 +53,7 @@ namespace GE
 
 		void display_info_message(const char* msg); // Display an info message
 
-		void PushMeshInstance(int x, int y, int z, int Scalex, int Scaley, int Scalez); // Add a instance to the scene
+		void PushMeshInstance(int x, int y, int z, float Scalex, float Scaley, float Scalez); // Add a instance to the scene
 
 		int ResolutionX;
 		int ResolutionY;

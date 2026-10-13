@@ -4,15 +4,13 @@
 in vec3 vertexPos3D;
 in vec2 vUV;
 
-// 14. The transformation matrix comes from the vector of
-// of position, rotation, scales converted to an array
+// 14. The transformation matrix comes from the vector of position, rotation, scales converted to an array
 in mat4 instance_transform_mat;
 
 // Output
 out vec2 uv;
 
-// View project matrices.  Note no model matrix as each instance
-// has its own matrix
+// View project matrices. Note no model matrix as each instance has its own matrix
 uniform mat4 view;
 uniform mat4 projection;
 

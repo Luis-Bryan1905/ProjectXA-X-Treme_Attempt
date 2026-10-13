@@ -98,7 +98,7 @@ namespace GE {
 		// Note that back face culling is the default culling
 		// Change cull type with glCullFace() and pass either
 		// GL_FRONT, GL_BACK or GL_FRONT_AND_BACK
-		glEnable(GL_CULL_FACE);
+		//glEnable(GL_CULL_FACE);
 		
 
 		// Get the view and projection matrices

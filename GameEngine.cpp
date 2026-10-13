@@ -153,7 +153,7 @@ namespace GE
 
 	}
 
-	void GameEngine::PushMeshInstance(int x, int y, int z, int Scalex, int Scaley, int Scalez) // Add a instance to the scene
+	void GameEngine::PushMeshInstance(int x, int y, int z, float Scalex, float Scaley, float Scalez) // Add a instance to the scene
 	{
 		instances.push_back // Add a new instance to the vector with the specified position, rotation and scale
 		({
@@ -164,9 +164,9 @@ namespace GE
 			0.0f, // Rotation around X axis (all instances will have the same rotation)
 			0.0f, // Rotation around Y axis (all instances will have the same rotation)
 			0.0f, // Rotation around Z axis (all instances will have the same rotation)
-			1.0f + (Scalex), // Scale on X axis (all instances will be scaled to half their original size)
-			1.0f + (Scaley), // Scale on Y axis (all instances will be scaled to half their original size)
-			1.0f + (Scalez) // Scale on Z axis (all instances will be scaled to half their original size)
+			Scalex, // Scale on X axis (all instances will be scaled to half their original size)
+			Scaley, // Scale on Y axis (all instances will be scaled to half their original size)
+			Scalez // Scale on Z axis (all instances will be scaled to half their original size)
 
 		});
 	}
@@ -318,7 +318,7 @@ namespace GE
 
 	void GameEngine::update()
 	{
-		//create delta_time
+		//WIP create delta_time
 		delta_time = SDL_GetTicks() - last_time; // Calculate the time difference between the current frame and the last frame in milliseconds
 		
 	}
